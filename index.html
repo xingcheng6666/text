@@ -3,24 +3,25 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>testChat</title>
+		<title>数字人</title>
 		<style>
 			/* 设置基本样式 */
 			body {
-				font-family: "楷体", sans-serif;
+				font-family: "黑体", sans-serif;
 				margin: 0;
 				padding: 0;
 			}
 
 			.chat-container {
 				height: 100vh;
+				min-width: 340px;
 				position: relative;
-				max-width: 500px;
+				/* 				max-width: 500px; */
 				border-radius: 10px;
 				overflow: hidden;
 				display: flex;
 				flex-direction: column;
-				background-image: url('https://image.yuanqilian.com:4443/5e382830f8a6a30060dcd5932f267440');
+				background-image: url('https://image.yuanqilian.com:4443/f0da8b3b1fd52018857aeac3c43fa61c');
 				background-size: cover;
 				background-repeat: no-repeat;
 			}
@@ -28,32 +29,38 @@
 			.chat-display {
 				position: relative;
 				padding: 10px;
-				height: 65vh;
+				height: 60vh;
 				overflow-y: scroll;
 			}
 
 			.part2 {
 				position: relative;
-				height: 25vh;
+				height: 200px;
 				display: flex;
 				flex-direction: row;
+				justify-content: space-evenly;
 			}
 
 			.list-container {
-				background-color: #fff;
-				width: 60%;
+				/* 				background-color: #fff; */
+				background-image: url('https://image.yuanqilian.com:4443/a8aefa88fce0f9d163449552659c54fd');
+				background-size: cover;
+				background-position: center center;
+				width: 240px;
 				display: flex;
 				flex-direction: column;
 				justify-content: flex-start;
-				height: 180px;
+				height: 160px;
+				padding: 20px;
 				border-radius: 10px;
+				min-width: 240px;
 			}
 
 			.list-container-header {
 				display: flex;
 				flex-direction: row;
 				justify-content: space-between;
-				height: 30px;
+				height: 20%;
 				/* 				background-image: linear-gradient(to right, #00ffff, #aaffff);
 				filter: brightness(1.5) opacity(0.5); */
 				/* 增加亮度并降低不透明度 */
@@ -61,9 +68,10 @@
 
 
 			.dataContainer {
+				height: 100%;
 				display: flex;
 				flex-direction: column;
-				justify-content: space-between;
+				justify-content: space-evenly;
 			}
 
 			.chat-input {
@@ -180,7 +188,7 @@
 			.msg-self {
 				border-radius: 10px;
 				color: #fff;
-				background-image: linear-gradient(to right, #3ea5ff, #7eb0ff);
+				background-image: linear-gradient(to right, #33ccff, #B0E2FF);
 			}
 
 			.msg-friend {
@@ -190,7 +198,7 @@
 			}
 
 			.message-input {
-				width: 100%%;
+				width: 100%;
 				font-size: 14px;
 				line-height: 15px;
 				/* border: solid 1px #999; */
@@ -242,7 +250,6 @@
 				border: none;
 				border-radius: 5px;
 				z-index: 999;
-				font-family: "楷体", sans-serif;
 			}
 
 
@@ -277,14 +284,35 @@
 			}
 
 			.standardQuestion {
+				color: #5f6267;
 				font-size: 15px;
+				padding-left: 10px;
 			}
 
 			.textColor {
-			      background: linear-gradient(to right, #2f82ff, #97bcff);
-			      -webkit-background-clip: text;
-			      -webkit-text-fill-color: transparent;
-			    }
+				background: linear-gradient(to right, #00008B, #ADD8E6);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				visibility: hidden;
+			}
+
+			.item {
+				height: 20px;
+				line-height: 20px;
+				border-bottom: 1px #f0f2f6 solid;
+			}
+
+			.main-content {
+				height: 90%;
+				overflow-y: scroll;
+			}
+
+			#recording-indicator {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
 		</style>
 	</head>
 	<body>
@@ -301,6 +329,7 @@
 		<div class="chat-container">
 
 			<button id="journeyButton" onclick="start1()">开启数字人之旅</button>
+			<div id="recording-indicator" style="display:none;">正在录音中...</div>
 			<div>
 				<input id="subscriptionKeyInput" value="" type="text" style="display:none;" />
 			</div>
@@ -312,67 +341,112 @@
 				</div>
 			</div>
 
+			<div class="main-content">
+				<!-- 对话框内容 -->
+				<div class="chat-display" style="display:none;">
+					<!-- 对话展示框将在这里 -->
+					<div class="scroll-list">
 
-			<!-- 对话框内容 -->
-			<div class="chat-display" style="display:none;">
-				<!-- 对话展示框将在这里 -->
-				<div class="scroll-list">
-
+					</div>
 				</div>
-			</div>
-			<div class="part2">
-				<!-- AI机器人 -->
-				<div class="box" style="height: 100%;width: 120px;z-index: 999;">
-				</div>
-				<!-- 推荐问题 -->
-				<div class="list-container" style="display:none;">
-					<div class="list-container-header">
-						<div style="height: 100%;display: flex;flex-direction: row;align-items: center;">
-							<img style="height: 100%;display: flex;align-items: center;" background-color: #33ccff;
-								src="https://image.yuanqilian.com:4443/2f1a758018721c4d412d95ef06f15e05" alt="" />
-							<div class="textColor">试试这样问我</div>
+				<div class="part2">
+					<!-- AI机器人 -->
+					<div class="box" style="height: 100%;width: 120px;z-index: 999;">
+					</div>
+					<!-- 推荐问题 -->
+					<div class="list-container" style="display:none;">
+						<div class="list-container-header">
+							<div style="height: 100%;display: flex;flex-direction: row;align-items: center;">
+								<img style="height: 100%;display: flex;align-items: center; visibility: hidden;"
+									src="https://image.yuanqilian.com:4443/2f1a758018721c4d412d95ef06f15e05" alt="" />
+								<div class="textColor">试试这样问我</div>
+							</div>
+							<div id="nextBatch"
+								style="display: flex;flex-direction: row;align-items: center;  opacity: 0;pointer-events: auto;">
+								换一批</div>
+							<!-- <button id="nextBatch">换一批</button> -->
 						</div>
-						<div id="nextBatch" style="display: flex;flex-direction: row;align-items: center;">换一批</div>
-						<!-- <button id="nextBatch">换一批</button> -->
+						<!-- <hr /> -->
+						<div style="display: flex;flex-direction: column;justify-content: space-between;height: 80%;">
+							<div id="dataContainer" class="dataContainer"></div>
+						</div>
 					</div>
-					<hr />
-					<div style="display: flex;flex-direction: column;justify-content: space-between;">
-						<div id="dataContainer" class="dataContainer"></div>
-					</div>
-
+					<!-- 					<button id="myButton">跳转按钮</button> -->
 				</div>
 			</div>
 			<!-- 输入内容，输入框输入及语音输入 -->
 			<div class="chat-input" style="display:none;">
 				<!-- <input type="text" id="message-input" placeholder="请输入内容"> -->
-				<div style="display: flex;flex-direction: row;border: 1px black solid; border-radius: 10px;width: 300px;
+				<div style="display: flex;flex-direction: row;border: 1px black solid; border-radius: 10px;width: 90%;
 				align-items: center;justify-content: center;">
-					<!-- <div style="width: 10%">
+					<!-- 					<div style="width: 10%">
 						<img style="width: 100%;display: flex;align-items: center;"
-							src="https://image.yuanqilian.com:4443/536146e7def2fd0f7e4f4f00bf4ce6d4" id="toggleIcon"
+							src="https://image.yuanqilian.com:4443/536146e7def2fd0f7e4f4f00bf4ce6d4"
 							alt="" />
 					</div> -->
 					<div id="contentArea" style="width: 80%;">
 						<div class="message-input" contenteditable="true"></div>
 					</div>
 					<!-- <button id="voiceButton">按住说话</button> -->
+
 					<div style="width: 10%;display: flex;align-items: center;">
-						<img onclick="submit()" style="width: 100%;background-color: #33ccff;border-radius: 50%"
-							src="https://image.yuanqilian.com:4443/2894df9a4f6ba4be1dadc07e9639708c" alt="" />
-						<!-- <img onclick="submit()" style="width: 100%;" src="https://image.yuanqilian.com:4443/0b78c852442ecad1ecc62bfac7917200" alt="" /> -->
+						<img style="width: 100%;" id="start"
+							src="https://image.yuanqilian.com:4443/6b226505894df10f895955865003bea4" alt="" />
+					</div>
+					<!-- <img onclick="submit()" style="width: 100%;" src="https://image.yuanqilian.com:4443/0b78c852442ecad1ecc62bfac7917200" alt="" /> -->
+					<!-- <button onclick="submit()">发送</button> -->
+
+					<!-- 					<button class="mic-button" id="start">
+						<div>语音</div>
+					</button> -->
+					<button class="mic-button end_btn" id="end" style="display: none;">
+						<div>结束</div>
+					</button>
+					<div style="width: 10%;display: flex;align-items: center;">
+						<img onclick="submit()" style="width: 100%;"
+							src="https://image.yuanqilian.com:4443/04e1752643bd38807a7036c713ff0e7a" alt="" />
+						<!-- <img onclick="submit()" style="width: 100%;" src="https://image.yuanqilian.com:4443/0b78c852442ecad1ecc62bfac7917200" alt="" />
 						<!-- <button onclick="submit()">发送</button> -->
 					</div>
 				</div>
-				<button class="mic-button" id="start">
-					<div>语音输入</div>
-				</button>
-				<button class="mic-button end_btn" id="end">
-					<div>结束语音</div>
-				</button>
+
 			</div>
 		</div>
 		<script type="text/javascript">
+			// document.getElementById('myButton').addEventListener('click', function() {
+			// 	window.location.href =
+			// 		'https://brtmap.com/bb/v4/c-h5v4/main/v4.0.0/index.html#/search?sign=f7be5d9542bb412994b84d276ed3f2c0&name=卫生间';
+			// });
+
 			document.addEventListener('DOMContentLoaded', function() {
+
+				// const buttons = document.querySelectorAll('.myButton');
+				// buttons.forEach(button => {
+				// 	button.addEventListener('click', function() {
+				// 		console.log(9304394);
+				// 		window.location.href =
+				// 			'https://brtmap.com/bb/v4/c-h5v4/main/v4.0.0/index.html#/search?sign=f7be5d9542bb412994b84d276ed3f2c0&name=卫生间';
+				// 	});
+				// });
+				const scrollList = document.querySelector('.scroll-list');
+
+				// 使用事件委托给按钮添加点击事件
+				scrollList.addEventListener('click', function(event) {
+					if (event.target && event.target.classList.contains('myButton')) {
+						console.log(9304394, sub);
+						window.location.href =
+							`https://brtmap.com/bb/v4/c-h5v4/main/v4.0.0/index.html#/search?sign=f7be5d9542bb412994b84d276ed3f2c0&name=${sub}`;
+					}
+				});
+				
+				scrollList.addEventListener('click', function(event) {
+					if (event.target && event.target.classList.contains('myButton1')) {
+						console.log(9304394, resultData);
+						window.location.href =
+							`https://brtmap.com/bb/v4/c-h5v4/main/v4.0.0/index.html#/map?sign=f7be5d9542bb412994b84d276ed3f2c0&page=map&type=1&poiId=${resultData.poiId}`;
+					}
+				});
+				
 				const urlParams = new URLSearchParams(window.location.search);
 				const paramValue = urlParams.get('logs');
 				const add = JSON.parse(paramValue)
@@ -422,81 +496,11 @@
 				// }
 			];
 
-			const inputList = []
-
 
 
 			const login = {
 				id: 1
 			};
-
-
-
-			const toggleIcon = document.getElementById('toggleIcon');
-			const contentArea = document.getElementById('contentArea');
-			let isButtonVisible = false;
-
-			toggleIcon.addEventListener('click', () => {
-				if (!isButtonVisible) {
-					// 显示按钮，隐藏可编辑 div
-					const button = document.createElement('button');
-					button.textContent = '按住说话';
-					button.id = 'voiceButton'; // 设置 id 为 voiceButton
-					contentArea.innerHTML = '';
-					contentArea.appendChild(button);
-					toggleIcon.src = 'https://image.yuanqilian.com:4443/97529594d43fc114b94e01f579261890';
-					isButtonVisible = true;
-				} else {
-					// 显示可编辑 div，隐藏按钮
-					const messageInput = document.createElement('div');
-					messageInput.classList.add('message-input');
-					messageInput.contentEditable = 'true';
-					contentArea.innerHTML = '';
-					contentArea.appendChild(messageInput);
-					toggleIcon.src = 'https://image.yuanqilian.com:4443/536146e7def2fd0f7e4f4f00bf4ce6d4';
-					isButtonVisible = false;
-				}
-			});
-
-			const voiceButton = document.getElementById('voiceButton');
-			let isRecording = false;
-			let timer;
-
-			voiceButton.addEventListener('mousedown', startRecording);
-			voiceButton.addEventListener('mouseup', stopRecording);
-			voiceButton.addEventListener('mouseout', stopRecording);
-			voiceButton.addEventListener('touchstart', startRecording);
-			voiceButton.addEventListener('touchend', stopRecording);
-			document.addEventListener('touchmove', handleTouchMove);
-
-			function startRecording(event) {
-				if (event.type === 'mousedown' || (event.type === 'touchstart' && event.touches.length === 1)) {
-					isRecording = true;
-					console.log('开始录音');
-					timer = setInterval(() => {
-
-						// 模拟正在录音的状态，可以添加一些视觉反馈，比如改变按钮样式等
-						console.log('正在录音...');
-					}, 500);
-				}
-			}
-
-			function stopRecording() {
-				isRecording = false;
-				clearInterval(timer);
-				console.log('停止录音');
-			}
-
-			function handleTouchMove(event) {
-				if (isRecording && event.touches.length > 0) {
-					const touch = event.touches[0];
-					if (touch.clientY < event.target.getBoundingClientRect().top || touch.clientY > event.target
-						.getBoundingClientRect().bottom) {
-						stopRecording();
-						console.log('上滑取消录音');
-					}
-				}
-			}
 
 
 			// 渲染函数
@@ -524,22 +528,58 @@
 						if (login.id != item.msgId) {
 							isPreviousFromFriend = true;
 							tempMessages.push(item.message);
-							mainElement = `<div class="row" style="height: auto;">
-			                                <div class="head-friend">
-			                                    <img class="avatar" src="${item.avatar}">
-			                                </div>
-			                                <div>
-			                                    <div class="AInick">${item.nickname}</div>
-			                                    <div class="message msg-friend">
-			                                        <div><span>${tempMessages.join(' ')}</span></div>
-			                                    </div>
-			                                </div>
-			                            </div>`;
+							console.log(IsLoacationState)
+							console.log(IsLoacationState1)
+							if (IsLoacationState == 1) {
+								mainElement = `<div class="row" style="height: auto;">
+								                <div class="head-friend">
+								                    <img class="avatar" src="${item.avatar}">
+								                </div>
+								                <div>
+								                    <div class="AInick">${item.nickname}</div>
+								                    <div class="message msg-friend">
+								                        <div><span>${tempMessages.join(' ')}</span></div>
+														<button class="myButton">跳转按钮</button>
+														<button onclick="button2()">打断语音</button>
+								                    </div>
+								                </div>
+								            </div>`;
+							}else if(IsLoacationState1 == 2 && IsLoacationState != 1){
+								IsLoacationState1 = 0;
+								mainElement = `<div class="row" style="height: auto;">
+								                <div class="head-friend">
+								                    <img class="avatar" src="${item.avatar}">
+								                </div>
+								                <div>
+								                    <div class="AInick">${item.nickname}</div>
+								                    <div class="message msg-friend">
+								                        <div><span>${tempMessages.join(' ')}</span></div>
+														<button class="myButton1">跳转藏品</button>
+														<button onclick="button2()">打断语音</button>
+								                    </div>
+								                </div>
+								            </div>`;
+							}
+							else {
+								mainElement = `<div class="row" style="height: auto;">
+								                <div class="head-friend">
+								                    <img class="avatar" src="${item.avatar}">
+								                </div>
+								                <div>
+								                    <div class="AInick">${item.nickname}</div>
+								                    <div class="message msg-friend">
+								                        <div><span>${tempMessages.join(' ')}</span></div>
+														<button onclick="button2()">打断语音</button>
+								                    </div>
+								                </div>
+								            </div>`;
+							}
+							console.log("主要元素", mainElement)
 							console.log('tempMessages:', tempMessages);
 							// 检查是否与上一个节点的 mainElement 重复
 							const lastChild = scrollList.lastChild;
 							console.log(lastChild);
-							if (lastChild && lastChild.innerHTML && lastChild.innerHTML.includes('机器人')) {
+							if (lastChild && lastChild.innerHTML && lastChild.innerHTML.includes('景博AI数字人')) {
 								scrollList.removeChild(lastChild);
 							}
 						} else {
@@ -572,13 +612,17 @@
 		</script>
 
 		<script>
+			let sub = ''
+			let IsLoacationState = 0;
+			let IsLoacationState1 = 0;
+			let product_name = [];
+			let resultData = '';
 			// 获取元素
 			const messageInput = document.querySelector('.message-input');
 			// const submitBtn = document.getElementById('submit-btn');
 			const chatDisplay = document.querySelector('.chat-display');
 
 			// 添加事件监听器
-			// submitBtn.addEventListener('click', sendMessage);
 
 
 			// 定义函数：发送消息
@@ -655,6 +699,15 @@
 			src="https://virtualhuman-app.oss-cn-beijing.aliyuncs.com/interaction/public/js/sdk/release/xiaoiceRTC1.0.6.js"
 			type="text/javascript"></script>
 		<script>
+			var count
+			const tobotytom = document.querySelector('.message-input')
+			tobotytom.addEventListener('focus', (event) => {
+				const box1 = document.querySelector('.main-content');
+				box1.scrollTo(0, box1.scrollHeight - box1.clientHeight)
+				const box2 = document.querySelector('.chat-display');
+				box2.scrollTo(0, box2.scrollHeight - box2.clientHeight)
+			}, true)
+
 			// 使用fetch发送请求
 			async function fetchSignature() {
 				try {
@@ -669,9 +722,32 @@
 					var signatureInput = document.getElementById('signature');
 					var projectIdInput = document.getElementById('projectId');
 					signatureInput.value = data.data;
-					projectIdInput.value = 'bba09db8-7a37-11ef-9a97-9163b6a79dca';
+					projectIdInput.value = '6c316363-7ae5-11ef-a6c8-27951f5caff7';
 					// start1();
 					return document.getElementById('signature').value;
+				} catch (error) {
+					console.error('Error:', error);
+					throw error;
+				}
+			}
+
+			async function getQuota() {
+				const globalSignature = await fetchSignature();
+				try {
+					await fetch('https://interactive-virtualhuman.xiaoice.com/openapi/quota/info', {
+							method: 'get',
+							headers: {
+								'signature': globalSignature,
+							},
+						})
+						.then(response => response.json())
+						.then(data => {
+							console.log("权益数据", data);
+							count = data.data[15].remaining
+							// if(data.data[15].remaining){
+							// 	alert('当前使用人数过多，请退出稍后再试！');
+							// }
+						})
 				} catch (error) {
 					console.error('Error:', error);
 					throw error;
@@ -688,7 +764,7 @@
 							'Content-Type': 'application/json'
 						},
 						body: JSON.stringify({
-							'projectId': 'bba09db8-7a37-11ef-9a97-9163b6a79dca'
+							'projectId': '6c316363-7ae5-11ef-a6c8-27951f5caff7'
 						}),
 						mode: 'cors',
 						cache: 'no-cache',
@@ -705,13 +781,13 @@
 						function displayData() {
 							const container = document.getElementById('dataContainer');
 							container.innerHTML = '';
-							for (let i = currentIndex; i < currentIndex + 4 && i < dataArray.length; i++) {
+							for (let i = currentIndex; i < currentIndex + 5 && i < dataArray.length; i++) {
 								const itemDiv = document.createElement('div');
 								itemDiv.classList.add('item');
 								itemDiv.innerHTML =
 									`<span class='standardQuestion'>${dataArray[i].standardQuestion}</span>`;
-								if (i < 3) {
-									itemDiv.innerHTML += '<hr>';
+								if (i < 4) {
+									// itemDiv.innerHTML += '<hr>';
 								}
 								// 添加点击事件监听器
 								itemDiv.addEventListener('click', function() {
@@ -734,11 +810,41 @@
 					});
 			}
 			getQuestionList();
-
-
+			
+			async function getProductList() {
+				await fetch('https://sg.jdzcnc.com:3020/api/exhibits/htmlGetProduct', {
+						method: 'get',
+					})
+					.then(response => response.json())
+					.then(data => {
+						//console.log(data.data);
+						product_name = data.data;
+					})
+					.catch(error => {
+						console.error('Error:', error);
+					});
+			}
+			
+			function findMatchingProductNameAndPoiId(item) {
+			  for (const element of product_name) {
+			    if (item.standardQuestion.includes(element.product_name)) {
+			      return { product_name: element.product_name, poiId: element.poiId };
+			    }
+			  }
+			  return null;
+			}
 
 			function handleItemClick(item) {
 				console.log(`点击了：${item.standardQuestion}`);
+				
+				resultData = findMatchingProductNameAndPoiId(item);
+				if (resultData) {
+					IsLoacationState1 = 2
+				  console.log(resultData.product_name, resultData.poiId);
+				} else {
+				  console.log('未找到匹配项');
+				}
+				
 				var signature = document.getElementById('signature').value;
 				var projectId = document.getElementById('projectId').value;
 
@@ -794,6 +900,7 @@
 					projectId: projectId,
 					// includeUI: true,
 				});
+				Client.breakTalking();
 				Client.endRTC();
 				stop1();
 			});
@@ -807,6 +914,7 @@
 					projectId: projectId,
 					// includeUI: true,
 				});
+				Client.breakTalking();
 				Client.endRTC();
 				stop1();
 			});
@@ -831,104 +939,163 @@
 					}
 				})
 			}
-			const start1 = (e) => {
-				//signature获取通过/openapi/signature/gen，详见API接⼊说明文档
 
-				document.getElementById('loadingScreen').style.display = 'block';
-				let progress = 0;
-				const interval = setInterval(() => {
-					progress += 10;
-					document.querySelector('.progress-bar div').style.width = progress + '%';
-					if (progress >= 100) {
-						clearInterval(interval);
-						document.getElementById('loadingScreen').style.display = 'none';
-
-					}
-				}, 500);
-
-				document.getElementById('journeyButton').style.display = 'none';
-
-				setTimeout(() => {
-					var signature = document.getElementById('signature').value;
-					var projectId = document.getElementById('projectId').value;
-					if (!signature || !projectId) {
-						alert('请输⼊签名和项目ID')
-						return
-					}
-					const Client = new window.RTCInteraction({
-						mountClass: "box",
-						signature: signature,
-						projectId: projectId,
-						timeout: 80000,
-						// includeUI: true,
-						onError(errorMes) {
-							console.log(errorMes);
-						},
-						onInited(res) {
-							console.log("inited", res);
-							Client.startRTC()
-						},
-						onPlayStream(v3Orv4) {
-							console.log("play");
-
-							console.log("v3Orv4", v3Orv4);
-							document.querySelector('.list-container').style.display = 'flex';
-							document.querySelector('.chat-input').style.display = 'flex';
-							document.querySelector('.chat-display').style.display = 'block';
-							document.getElementById('loadingScreen').style.display = 'none';
-						},
-						onStopStream() {
-							console.log("stop");
-						},
-						onTalkStart(talkRes) {
-							const nameElements = document.querySelector(".message-input");
-
-							console.log("问题的值", talkRes)
-
-							const state = talkRes.originalAnswer.state
-							console.log("状态的值", state);
-							var date = new Date();
-							var month = date.getMonth() + 1;
-							var day = date.getDate();
-							var hour = date.getHours();
-							var minu = date.getMinutes();
-							var sec = date.getSeconds();
-							var now1 = month < 10 ? '0' + month : month;
-							var now2 = day < 10 ? '0' + day : day;
-							hour = hour < 10 ? "0" + hour : hour;
-							minu = minu < 10 ? "0" + minu : minu;
-							sec = sec < 10 ? "0" + sec : sec;
-							// 假设数组名为 answers
-							answer = {
-								date1: now1 + '-' + now2 + ' ' + hour + ':' + minu,
-								date: now1 + '-' + now2 + ' ' + hour + ':' + minu + ':' + sec,
-								type: 'custom',
-								msgId: 0,
-								nickname: 'AI 机器人',
-								avatar: 'https://image.yuanqilian.com:4443/76483eaf106b46d4ba47aede8efe2d76',
-								message: talkRes.content
-							};
-							console.log(answer);
-							// initChat()
-							// if (state === 1) {
-							// 	inputList.push(answer);
-							// 	inputChat()
-							// } else {
-							// 	chatList.push(answer);
-							// 	console.log(chatList);
-							// }
-							chatList.push(answer);
-							renderChat();
-							chatDisplay.scrollTop = chatDisplay.scrollHeight;
-							// }
-							// 清空输入框
-							nameElements.textContent = '';
-						},
-						onTalkEnd(talkRes) {
-							console.log(talkRes);
+			const audio = async () => {
+				return new Promise(async (resolve, reject) => {
+					try {
+						if (navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+							navigator.mediaDevices
+								.getUserMedia({
+									audio: true
+								})
+								.then((mediastream) => {
+									resolve()
+								})
+								.catch((err) => {
+									// 获取麦克风失败，可以通过 err.name 或者 err.message 来判断错误原因，err并没有返回错误错误码
+									console.log('获取麦克风失败', err)
+									console.log('获取麦克风失败name', err?.name)
+									console.log('获取麦克风失败message', err?.message)
+									reject('allow')
+								})
+						} else {
+							// 浏览器不支持获取设备权限，有可能是当前页面不是https，也可能是当前浏览器不支持获取设备权限
+							console.log('浏览器不支持获取设备权限，有可能是当前页面不是https，也可能是当前浏览器不支持获取设备权限')
+							reject('not found')
 						}
-					});
-				}, 1500);
+					} catch (e) {
+						console.log(e)
+						reject('not found')
+					}
+				})
+			}
+			const button2 = (e) => {
+				const Client = new window.RTCInteraction({
+					mountClass: "box",
+					signature: signature,
+					projectId: projectId,
+					// includeUI: true,
+				});
+				Client.breakTalking();
+			}
+			const start1 = async (e) => {
+				//signature获取通过/openapi/signature/gen，详见API接⼊说明文档
+				// await audio();
+
+				await getQuota()
+				
+				await getProductList();
+				console.log(product_name)
+				console.log("count", count)
+				if (count > 0) {
+					document.getElementById('loadingScreen').style.display = 'block';
+					let progress = 0;
+					const interval = setInterval(() => {
+						progress += 10;
+						document.querySelector('.progress-bar div').style.width = progress + '%';
+						if (progress >= 100) {
+							clearInterval(interval);
+							document.getElementById('loadingScreen').style.display = 'none';
+
+						}
+					}, 500);
+
+					document.getElementById('journeyButton').style.display = 'none';
+
+					setTimeout(() => {
+						var signature = document.getElementById('signature').value;
+						var projectId = document.getElementById('projectId').value;
+						if (!signature || !projectId) {
+							alert('请输⼊签名和项目ID')
+							return
+						}
+						const Client = new window.RTCInteraction({
+							mountClass: "box",
+							signature: signature,
+							projectId: projectId,
+							timeout: 160000,
+							// includeUI: true,
+							onError(errorMes) {
+								console.log(errorMes);
+							},
+							onInited(res) {
+								console.log("inited", res);
+								Client.startRTC()
+							},
+							onPlayStream(v3Orv4) {
+								console.log("play");
+								console.log("v3Orv4", v3Orv4);
+								document.querySelector('.list-container').style.display = 'flex';
+								document.querySelector('.chat-input').style.display = 'flex';
+								document.querySelector('.chat-display').style.display = 'block';
+								document.getElementById('loadingScreen').style.display = 'none';
+							},
+							onStopStream() {
+								console.log("stop");
+							},
+							onTalkStart(talkRes) {
+								const nameElements = document.querySelector(".message-input");
+
+								console.log("问题的值", talkRes)
+
+								const state = talkRes.originalAnswer.state
+								console.log("状态的值", state);
+								var date = new Date();
+								var month = date.getMonth() + 1;
+								var day = date.getDate();
+								var hour = date.getHours();
+								var minu = date.getMinutes();
+								var sec = date.getSeconds();
+								var now1 = month < 10 ? '0' + month : month;
+								var now2 = day < 10 ? '0' + day : day;
+								hour = hour < 10 ? "0" + hour : hour;
+								minu = minu < 10 ? "0" + minu : minu;
+								sec = sec < 10 ? "0" + sec : sec;
+								// 假设数组名为 answers
+								answer = {
+									date1: now1 + '-' + now2 + ' ' + hour + ':' + minu,
+									date: now1 + '-' + now2 + ' ' + hour + ':' + minu + ':' + sec,
+									type: 'custom',
+									msgId: 0,
+									nickname: '景博AI数字人-紫玲',
+									avatar: 'https://image.yuanqilian.com:4443/23d420c43a469244162f6525c97b51ec',
+									message: talkRes.content
+								};
+								console.log(answer);
+								console.log(talkRes.content)
+								IsLoacationState = 0
+								const originalString = talkRes.content;
+								const targetString = "具体路线如下：";
+								const index = originalString.indexOf(targetString);
+
+								console.log("参数为", index)
+								if (index !== -1) {
+									console.log("包含具体信息", IsLoacationState)
+									IsLoacationState = 1
+									console.log("包含具体信息", IsLoacationState)
+									const result = originalString.substring(0, index);
+									console.log(result);
+									sub = result
+								} else {
+									console.log("未找到特定字符串。");
+								}
+								chatList.push(answer);
+								renderChat();
+
+								chatDisplay.scrollTop = chatDisplay.scrollHeight;
+								// }
+								// 清空输入框
+								nameElements.textContent = '';
+							},
+							onTalkEnd(talkRes) {
+								console.log(talkRes);
+							}
+						});
+					}, 1500);
+				} else {
+					alert("网路繁忙")
+				}
+
 
 			}
 		</script>
@@ -942,6 +1109,16 @@
 					return
 				} else {
 					console.log("待提交信息", element);
+				}
+				let item = {};
+				item.standardQuestion = element;
+				
+				resultData = findMatchingProductNameAndPoiId(item);
+				if (resultData) {
+					IsLoacationState1 = 2
+				  console.log(resultData.product_name, resultData.poiId);
+				} else {
+				  console.log('未找到匹配项');
 				}
 
 				var date = new Date();
@@ -991,97 +1168,164 @@
 
 		<script>
 			console.log('==>AsrSDK', window.AsrSDK)
-			$(function() {
-				//let signature = '';
+			//let signature = '';
+			signature = document.getElementById('signature').value;
+			let subscriptionKey = 'c274a8557dd84e318f6b1ee83f84e188'
+			var subscriptionKeyInput = document.getElementById('subscriptionKeyInput');
+			subscriptionKeyInput.value = 'c274a8557dd84e318f6b1ee83f84e188';
+			const service = axios.create({
+				baseURL: 'https://interactive-virtualhuman.xiaoice.com/openapi'
+			})
+			service.interceptors.response.use((response) => {
+				if (response.status === 200 && response.data?.code === 200) {
+					return response.data?.data
+				}
+				return Promise.reject(response.data)
+			}, (error) => {
+				console.log('错误', error)
+				return Promise.reject(error)
+			})
+			let asr;
+
+			function startAsr() {
+				window.AsrSDK.authUseMicrophone().then(res => {
+					console.log('==>授权成功', res)
+				}).catch(err => {
+					console.log('==>授权失败', err)
+				})
+
 				signature = document.getElementById('signature').value;
-				let subscriptionKey = 'c274a8557dd84e318f6b1ee83f84e188'
-				var subscriptionKeyInput = document.getElementById('subscriptionKeyInput');
-				subscriptionKeyInput.value = 'c274a8557dd84e318f6b1ee83f84e188';
-				const service = axios.create({
-					baseURL: 'https://interactive-virtualhuman.xiaoice.com/openapi'
-				})
-				service.interceptors.response.use((response) => {
-					if (response.status === 200 && response.data?.code === 200) {
-						return response.data?.data
-					}
-					return Promise.reject(response.data)
-				}, (error) => {
-					console.log('错误', error)
-					return Promise.reject(error)
-				})
-				let asr;
-
-				$('#start').on('click', function() {
-					window.AsrSDK.authUseMicrophone().then(res => {
-						console.log('==>授权成功', res)
-					}).catch(err => {
-						console.log('==>授权失败', err)
-					})
-
-					signature = document.getElementById('signature').value;
-					//console.log(signature);
-					if (!signature) {
-						alert('signature 不能为空')
-						return;
-					}
-					asr = new window.AsrSDK({
-						// 开始识别
-						onRecognitionStart: (res) => {
-							console.log('开始识别', res);
-						},
-						// ⼀句话开始
-						onSentenceBegin: (res) => {
-							console.log('⼀句话开始', res);
-							isCanStop = true;
-							$('#end').show();
-							$('#recognizing').show();
-							// $('#connecting').hide();
-						},
-						// 识别变化时
-						onRecognitionResultChange: (res) => {
-							console.log('识别变化时', res);
-							const currentText = `${resultText}${res.result.voice_text_str}`;
-							areaDom.text(currentText);
-						},
-						// ⼀句话结束
-						onSentenceEnd: (res) => {
-							console.log('⼀句话结束', res);
-							resultText += res.result.voice_text_str;
-							areaDom.text(resultText);
-						},
-						// 识别错误
-						onError: (res) => {
-							console.log('识别失败', res)
-							$('#end').hide();
-							$('#recognizing').hide();
-							$('#start').show();
-							// $('#connecting').hide();
-						},
-						projectId: "bba09db8-7a37-11ef-9a97-9163b6a79dca"
-					});
-					asr.setIsDebug(true)
-					const areaDom = $('.message-input');
-					areaDom.text('');
-					let resultText = '';
-					$(this).hide();
-					// $('#connecting').show();
-					asr.start(signature);
+				//console.log(signature);
+				if (!signature) {
+					alert('signature 不能为空')
+					return;
+				}
+				asr = new window.AsrSDK({
+					// 开始识别
+					onRecognitionStart: (res) => {
+						console.log('开始识别', res);
+					},
+					// ⼀句话开始
+					onSentenceBegin: (res) => {
+						console.log('⼀句话开始', res);
+						isCanStop = true;
+						$('#end').show();
+						$('#recognizing').show();
+						// $('#connecting').hide();
+					},
+					// 识别变化时
+					onRecognitionResultChange: (res) => {
+						console.log('识别变化时', res);
+						const currentText = `${resultText}${res.result.voice_text_str}`;
+						areaDom.text(currentText);
+					},
+					// ⼀句话结束
+					onSentenceEnd: (res) => {
+						console.log('⼀句话结束', res);
+						resultText += res.result.voice_text_str;
+						areaDom.text(resultText);
+					},
+					// 识别错误
+					onError: (res) => {
+						console.log('识别失败', res)
+						$('#end').hide();
+						$('#recognizing').hide();
+						$('#start').show();
+						// $('#connecting').hide();
+					},
+					projectId: "6c316363-7ae5-11ef-a6c8-27951f5caff7"
 				});
-				$('#end').on('click', function() {
-					// 	var element = document.getElementById('recognizeText');
-					// 	var textValue = element.textContent || element.innerText;
-					// 	console.log(textValue);	
-					// var textIdInput = document.getElementById('textId');
-					// textIdInput.value = textValue;
-					// element.textContent = ""; 
-					// element.innerHTML = "";
-					$(this).hide();
-					$('#recognizing').hide();
-					$('#start').show();
-					if (isCanStop) {
-						asr.stop();
-					}
+				asr.setIsDebug(true)
+				const areaDom = $('.message-input');
+				areaDom.text('');
+				let resultText = '';
+				$(this).hide();
+				// $('#connecting').show();
+				asr.start(signature);
+			}
+
+			$('#start').on('click', function() {
+				document.getElementById('recording-indicator').style.display = 'block';
+				window.AsrSDK.authUseMicrophone().then(res => {
+					console.log('==>授权成功', res)
+				}).catch(err => {
+					console.log('==>授权失败', err)
+				})
+
+				signature = document.getElementById('signature').value;
+				//console.log(signature);
+				if (!signature) {
+					alert('signature 不能为空')
+					return;
+				}
+				asr = new window.AsrSDK({
+					// 开始识别
+					onRecognitionStart: (res) => {
+						console.log('开始识别', res);
+					},
+					// ⼀句话开始
+					onSentenceBegin: (res) => {
+						console.log('⼀句话开始', res);
+						isCanStop = true;
+						$('#end').show();
+						$('#recognizing').show();
+						// $('#connecting').hide();
+					},
+					// 识别变化时
+					onRecognitionResultChange: (res) => {
+						console.log('识别变化时', res);
+						const currentText = `${resultText}${res.result.voice_text_str}`;
+						areaDom.text(currentText);
+					},
+					// ⼀句话结束
+					onSentenceEnd: (res) => {
+						console.log('⼀句话结束', res);
+						resultText += res.result.voice_text_str;
+						areaDom.text(resultText);
+					},
+					// 识别错误
+					onError: (res) => {
+						console.log('识别失败', res)
+						$('#end').hide();
+						$('#recognizing').hide();
+						$('#start').show();
+						// $('#connecting').hide();
+					},
+					projectId: "6c316363-7ae5-11ef-a6c8-27951f5caff7"
 				});
+				asr.setIsDebug(true)
+				const areaDom = $('.message-input');
+				areaDom.text('');
+				let resultText = '';
+				$(this).hide();
+				// $('#connecting').show();
+				asr.start(signature);
+			});
+
+			function endAsr() {
+				$(this).hide();
+				$('#recognizing').hide();
+				$('#start').show();
+				if (isCanStop) {
+					asr.stop();
+				}
+			}
+
+			$('#end').on('click', function() {
+				// 	var element = document.getElementById('recognizeText');
+				// 	var textValue = element.textContent || element.innerText;
+				// 	console.log(textValue);	
+				// var textIdInput = document.getElementById('textId');
+				// textIdInput.value = textValue;
+				// element.textContent = ""; 
+				// element.innerHTML = "";
+				document.getElementById('recording-indicator').style.display = 'none';
+				$(this).hide();
+				$('#recognizing').hide();
+				$('#start').show();
+				if (isCanStop) {
+					asr.stop();
+				}
 			});
 		</script>
 	</body>
