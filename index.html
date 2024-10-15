@@ -48,23 +48,25 @@
 		</div>
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
+			let product_id = '';
+			let user_id = ''
 			document.addEventListener('DOMContentLoaded', function() {
-				console.log(window.location.search)
 				const urlParams = new URLSearchParams(window.location.search);
-				let paramValue = urlParams.get('logs');
-				console.log(paramValue)
-				if (paramValue === null) {
-					paramValue = '没有获取到参数值';
+				product_id = urlParams.get('product_id');
+				user_id = urlParams.get('user_id');
+				console.log(product_id)
+				console.log(user_id)
+				if (user_id === null && product_id === null) {
+					product_id = '没有获取到参数值';
 				}
-				const box = document.getElementById("box");
 
-				if (typeof wx !== 'undefined' && wx.miniProgram) {
-					wx.miniProgram.postMessage({
-						data: '获取成功'
-					});
-				} else {
-					console.log('微信小程序环境不可用');
-				}
+				// if (typeof wx !== 'undefined' && wx.miniProgram) {
+				// 	wx.miniProgram.postMessage({
+				// 		data: '获取成功'
+				// 	});
+				// } else {
+				// 	console.log('微信小程序环境不可用');
+				// }
 			});
 		</script>
 		<script>
