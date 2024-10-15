@@ -48,16 +48,13 @@
 		</div>
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
-			let product_id = '';
-			let user_id = ''
+			let poiId = '';
 			document.addEventListener('DOMContentLoaded', function() {
 				const urlParams = new URLSearchParams(window.location.search);
-				product_id = urlParams.get('product_id');
-				user_id = urlParams.get('user_id');
-				console.log(product_id)
-				console.log(user_id)
-				if (user_id === null && product_id === null) {
-					product_id = '没有获取到参数值';
+				poiId = urlParams.get('poiId');
+				console.log(poiId)
+				if (poiId === null ) {
+					poiId = '没有获取到参数值';
 				}
 
 				// if (typeof wx !== 'undefined' && wx.miniProgram) {
@@ -71,10 +68,9 @@
 		</script>
 		<script>
 			window.onload = function() {
-				axios.get('https://sg.jdzcnc.com:3020/api/exhibits/findVoice', {
+				axios.get('https://sg.jdzcnc.com:3020/api/exhibits/letPoiidfindVoice', {
 						params: {
-							product_id: product_id,
-							user_id: user_id,
+							poiId: poiId,
 						}
 					})
 					.then(response => {
