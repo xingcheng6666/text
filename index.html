@@ -49,8 +49,10 @@
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
 			document.addEventListener('DOMContentLoaded', function() {
+				console.log(window.location.search)
 				const urlParams = new URLSearchParams(window.location.search);
 				let paramValue = urlParams.get('logs');
+				console.log(paramValue)
 				if (paramValue === null) {
 					paramValue = '没有获取到参数值';
 				}
