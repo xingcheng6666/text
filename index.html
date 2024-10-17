@@ -74,12 +74,13 @@
 		<div class="scan-message" id="targetElement"></div>
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
-			let poiId;
-			let length = poiId.length;
+			let poiId = '';
 			document.addEventListener('DOMContentLoaded', function() {
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
 				console.log(poiId)
+				const arr = JSON.parse(poiId);
+				console.log(arr);
 				if (poiId === null) {
 					poiId = 1;
 				}
