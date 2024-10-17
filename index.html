@@ -88,6 +88,8 @@
 				poiId = urlParams.get('poiId');
 				console.log(poiId)
 				//arr = JSON.parse(poiId);
+				const poiIdArray = poiIdStr.split(',');
+				const numericPoiIdArray = poiIdArray.map(item => Number(item));
 				arr = poiId;
 				len = arr.length;
 				if (poiId === null) {
@@ -104,7 +106,7 @@
 				try {
 					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/findVoiceList', {
 						products: {
-							poiId: arr,
+							poiId: numericPoiIdArray,
 						}
 					});
 					const items = response.data.data;
