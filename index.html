@@ -71,11 +71,14 @@
 	</head>
 
 	<body>
-		<div class="scan-message">扫描到 {{length}} 个藏品</div>
+		<div class="scan-message" id="targetElement"></div>
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
 			let poiId = '';
 			let length = poiId.length;
+			const data = `扫描到 ${length} 个藏品`;
+			const targetElement = document.getElementById('targetElement');
+			targetElement.innerText = data;
 			document.addEventListener('DOMContentLoaded', function() {
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
