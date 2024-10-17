@@ -71,14 +71,17 @@
 	</head>
 
 	<body>
-		<div class="scan-message">扫描到 3 个藏品</div>
+		<div class="scan-message">扫描到 {{length}} 个藏品</div>
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
 			let poiId = '';
+			let length = poiId.length;
 			document.addEventListener('DOMContentLoaded', function() {
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
+				length = poiId.length;
 				console.log(poiId)
+				console.log(length)
 				if (poiId === null) {
 					poiId = 1;
 				}
@@ -93,6 +96,7 @@
 						}
 					});
 					const items = response.data.data;
+					console.log(items);
 					if (Array.isArray(items)) {
 						const listContainer = document.createElement('div');
 						items.forEach(item => {
