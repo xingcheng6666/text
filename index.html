@@ -25,7 +25,7 @@
 			}
 
 			.video-player video {
-				width: 100%;
+				
 			}
 
 			.close-button {
@@ -124,6 +124,9 @@
 							button.addEventListener('click', async () => {
 								const videoPlayer = document.createElement('div');
 								videoPlayer.classList.add('video-player');
+								let screenWidth = window.innerWidth;
+								console.log(screenWidth);
+								videoPlayer.style.width = screenWidth + 'px';
 								const video = document.createElement('video');
 								try {
 									video.src = item.voide_url;
