@@ -75,12 +75,12 @@
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
 			let poiId = '';
+			let arr;
 			document.addEventListener('DOMContentLoaded', function() {
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
 				console.log(poiId)
-				const arr = JSON.parse(poiId);
-				console.log(arr);
+				arr = JSON.parse(poiId);
 				if (poiId === null) {
 					poiId = 1;
 				}
@@ -91,11 +91,11 @@
 				// const data = `扫描到 ${length} 个藏品`;
 				// const targetElement = document.getElementById('targetElement');
 				// targetElement.innerText = data;
-				console.log(poiId)
+				console.log(arr)
 				try {
 					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/findVoiceList', {
 						products: {
-							poiId: poiId,
+							poiId: arr,
 						}
 					});
 					const items = response.data.data;
