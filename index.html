@@ -1,51 +1,77 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<title>audioPlay</title>
+		<title>listProduct</title>
+		<style>
+			.list-item {
+				border: 1px solid #ccc;
+				padding: 10px;
+				margin: 10px;
+				display: flex;
+			}
+
+			.video-player {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: rgba(0, 0, 0, 0.8);
+				padding: 10px;
+				border-radius: 5px;
+			}
+
+			.video-player video {
+				width: 100%;
+			}
+
+			.close-button {
+				position: absolute;
+				color: #ffffff;
+				top: 5px;
+				right: 5px;
+				cursor: pointer;
+				font-size: 24px;
+				padding: 5px;
+				border: 5px solid red;
+				border-radius: 5px;
+			}
+
+			img {
+				max-width: 90px;
+				max-height: 90px;
+			}
+
+			button {
+				/* 调整按钮高度 */
+				height: 30px;
+				padding: 5px 10px;
+				border: none;
+				background-color: #4CAF50;
+				color: white;
+				cursor: pointer;
+			}
+
+			.item-details {
+				display: flex;
+				flex-direction: column;
+				margin-left: 10px;
+			}
+
+			/* 新添加的样式 */
+			.scan-message {
+				text-align: center;
+				font-size: 20px;
+				font-weight: bold;
+			}
+		</style>
 	</head>
-	<style>
-		body {
-			background-color: #f7f3e8;
-			font-family: 宋体, sans-serif;
-		}
 
-		.container {}
-
-		.subtitlesData {
-			text-indent: 2em;
-			/* text-align: center; */
-
-			font-size: 30rpx;
-			width: 100%;
-			font-weight: 100;
-			line-height: 2;
-			color: #000000;
-		}
-
-		.content-container {
-			width: 80%;
-			background-color: #fff;
-			border-radius: 10px;
-			padding: 10px;
-			margin: 0 auto;
-			margin-top: 10px;
-		}
-	</style>
 	<body>
-		<div class="container">
-			<div style="display: flex;align-items: center;justify-content: center;"><video id="myVideo" width="320"
-					height="240" controls></video></div>
-			<div style="display: none;align-items: center;justify-content: center;"><audio id="myAudio" width="320"
-					height="240" controls></audio></div>
-			<div id="productName" style="text-align: center;margin-top: 10px;"></div>
-			<div class="content-container">
-				<div class="subtitlesData"></div>
-			</div>
-			<!-- <div id="box" style="height='100px';color='black';">获取到的数据为</div> -->
-		</div>
+		<div class="scan-message">扫描到 3 个藏品</div>
 		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 		<script type="text/javascript">
 			let poiId = '';
@@ -53,127 +79,74 @@
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
 				console.log(poiId)
-				if (poiId === null ) {
-					poiId = '没有获取到参数值';
+				if (poiId === null) {
+					poiId = 1;
 				}
-
-				// if (typeof wx !== 'undefined' && wx.miniProgram) {
-				// 	wx.miniProgram.postMessage({
-				// 		data: '获取成功'
-				// 	});
-				// } else {
-				// 	console.log('微信小程序环境不可用');
-				// }
 			});
 		</script>
 		<script>
-			window.onload = function() {
-				axios.get('https://sg.jdzcnc.com:3020/api/exhibits/letPoiidfindVoice', {
-						params: {
+			window.onload = async function() {
+				try {
+					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/findVoiceList', {
+						products: {
 							poiId: poiId,
 						}
-					})
-					.then(response => {
-						//console.log(response.data);
-						Data = {
-							videoUrl: response.data.data.voice_description,
-							product_name: response.data.data.product_name,
-							image: response.data.data.cover_image_url,
-							voice: response.data.data.cover_voice_url,
-							subtitles: JSON.parse(response.data.data.captions),
-							voide: response.data.data.cover_voide_url,
-							english_name: response.data.data.english_name,
-							english_description: response.data.data.english_description
-						}
-						//console.log(Data.subtitles);
-						const productNameDiv = document.getElementById('productName');
-						productNameDiv.textContent = Data.product_name;
-
-						var video = document.getElementById('myVideo');
-						var source = video.querySelector('source');
-						if (!source) {
-							source = document.createElement('source');
-							video.appendChild(source);
-						}
-						source.src = Data.voide;
-						source.type = 'video/mp4';
-						video.load();
-						video.addEventListener('timeupdate', function() {
-							var videoCurrentTime = video.currentTime;
-							console.log('当前视频播放时间：', videoCurrentTime);
-
-							const subtitlesData = document.querySelector('.subtitlesData');
-							if (subtitlesData) {
-								// 清空之前的字幕内容
-								subtitlesData.innerHTML = '';
-
-								const subtitlesList = Data.subtitles.data;
-								subtitlesList.forEach((item, index) => {
-									let mainElement = '';
-									if (subtitlesList) {
-										if (videoCurrentTime * 1000 > item.start && videoCurrentTime *
-											1000 <= item.end) {
-											mainElement =
-												`<span style="color: red;">${item.text}</span>`;
-										} else {
-											mainElement = `<span>${item.text}</span>`;
-										}
-									} else {
-										console.error('未找到字幕数据');
-									}
-
-									const subtitlesItem = `${mainElement}`;
-
-									subtitlesData.innerHTML += subtitlesItem;
-								});
-							}
-						});
-
-						var audio = document.getElementById('myAudio');
-						var source = audio.querySelector('source');
-						if (!source) {
-							source = document.createElement('source');
-							audio.appendChild(source);
-						}
-						source.src = Data.voice;
-						source.type = 'audio/mp3';
-						audio.load();
-						audio.addEventListener('timeupdate', function() {
-							window.currentTime = audio.currentTime;
-							console.log('当前音频播放时间：', window.currentTime);
-
-							const subtitlesData = document.querySelector('.subtitlesData');
-							if (subtitlesData) {
-								// 清空之前的字幕内容
-								subtitlesData.innerHTML = '';
-
-								const subtitlesList = Data.subtitles.data;
-								subtitlesList.forEach((item, index) => {
-									let mainElement = '';
-									if (subtitlesList) {
-										if (window.currentTime * 1000 > item.start && window
-											.currentTime * 1000 <= item.end) {
-											mainElement =
-												`<span style="color: red;">${item.text}</span>`;
-										} else {
-											mainElement = `<span>${item.text}</span>`;
-										}
-									} else {
-										console.error('未找到字幕数据');
-									}
-
-									const subtitlesItem = `${mainElement}`;
-
-									subtitlesData.innerHTML += subtitlesItem;
-								});
-							}
-						});
-					})
-					.catch(error => {
-						console.error('Error:', error);
 					});
-			}
+					const items = response.data.data;
+					if (Array.isArray(items)) {
+						const listContainer = document.createElement('div');
+						items.forEach(item => {
+							const listItem = document.createElement('div');
+							listItem.classList.add('list-item');
+							// 创建图片元素
+							const imgElement = document.createElement('img');
+							imgElement.src = item.image_url;
+							listItem.appendChild(imgElement);
+							const itemDetails = document.createElement('div');
+							itemDetails.classList.add('item-details');
+							const productName = document.createElement('p');
+							productName.textContent = item.product_name;
+							itemDetails.appendChild(productName);
+							const button = document.createElement('button');
+							button.textContent = '前往播放讲解';
+							// button.dataset.voiceUrl = item.voice_url;
+							button.dataset.voideUrl = item.voide_url;
+							button.addEventListener('click', async () => {
+								const videoPlayer = document.createElement('div');
+								videoPlayer.classList.add('video-player');
+								const video = document.createElement('video');
+								try {
+									video.src = item.voide_url;
+									video.autoplay = true;
+									video.controls = true;
+									videoPlayer.appendChild(video);
+									const closeButton = document.createElement('span');
+									closeButton.classList.add('close-button');
+									closeButton.textContent = '×';
+									closeButton.addEventListener('click', function() {
+										video.pause();
+										videoPlayer.remove();
+									});
+									videoPlayer.appendChild(closeButton);
+									document.body.appendChild(videoPlayer);
+								} catch (error) {
+									console.error('Error loading video:', error);
+								}
+							});
+							itemDetails.appendChild(button);
+							listItem.appendChild(itemDetails);
+							listContainer.appendChild(listItem);
+						});
+						document.body.appendChild(listContainer);
+					} else {
+						console.error('Items is not an array.');
+					}
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			};
 		</script>
 	</body>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 </html>
