@@ -79,9 +79,7 @@
 			document.addEventListener('DOMContentLoaded', function() {
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
-				length = poiId.length;
 				console.log(poiId)
-				console.log(length)
 				if (poiId === null) {
 					poiId = 1;
 				}
@@ -93,7 +91,6 @@
 				// const targetElement = document.getElementById('targetElement');
 				// targetElement.innerText = data;
 				console.log(poiId)
-				//console.log(length)
 				try {
 					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/findVoiceList', {
 						products: {
