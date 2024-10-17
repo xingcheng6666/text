@@ -95,7 +95,7 @@
 		<script>
 			window.onload = async function() {
 				try {
-					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/getExhibition_audio', {
+					const response = await axios.get('https://sg.jdzcnc.com:3020/api/exhibits/getExhibition_audio', {
 						params: {
 							poiId: poiId,
 							sign: 'J10D4Z26H8E5N14C3Z26C3Y25L12Z26N14T20L12I9A1N14G7K11EJKGYULIANZNNN',
