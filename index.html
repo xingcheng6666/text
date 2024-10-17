@@ -80,6 +80,8 @@
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
 				length = poiId.length;
+				console.log(poiId)
+				console.log(length)
 				if (poiId === null) {
 					poiId = 1;
 				}
