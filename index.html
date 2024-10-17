@@ -87,11 +87,11 @@
 		</script>
 		<script>
 			window.onload = async function() {
-				const data = `扫描到 ${length} 个藏品`;
-				const targetElement = document.getElementById('targetElement');
-				targetElement.innerText = data;
+				// const data = `扫描到 ${length} 个藏品`;
+				// const targetElement = document.getElementById('targetElement');
+				// targetElement.innerText = data;
 				console.log(poiId)
-				console.log(length)
+				//console.log(length)
 				try {
 					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/findVoiceList', {
 						products: {
