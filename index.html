@@ -127,6 +127,7 @@
 								let screenWidth = window.innerWidth;
 								console.log(screenWidth);
 								videoPlayer.style.width = screenWidth + 'px';
+								videoPlayer.style.height = screenWidth * 9 / 16 + 'px';
 								const video = document.createElement('video');
 								try {
 									video.src = item.voide_url;
