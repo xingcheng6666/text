@@ -76,11 +76,13 @@
 		<script type="text/javascript">
 			let poiId = '';
 			let arr;
+			let len;
 			document.addEventListener('DOMContentLoaded', function() {
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
 				console.log(poiId)
 				arr = JSON.parse(poiId);
+				len = arr.length;
 				if (poiId === null) {
 					poiId = 1;
 				}
@@ -88,9 +90,9 @@
 		</script>
 		<script>
 			window.onload = async function() {
-				// const data = `扫描到 ${length} 个藏品`;
-				// const targetElement = document.getElementById('targetElement');
-				// targetElement.innerText = data;
+				const data = `扫描到 ${len} 个藏品`;
+				const targetElement = document.getElementById('targetElement');
+				targetElement.innerText = data;
 				console.log(arr)
 				try {
 					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/findVoiceList', {
