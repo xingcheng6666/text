@@ -87,6 +87,9 @@
 				const urlParams = new URLSearchParams(window.location.search);
 				poiId = urlParams.get('poiId');
 				console.log(poiId)
+				//arr = JSON.parse(poiId);
+				arr = poiId;
+				len = arr.length;
 				if (poiId === null) {
 					poiId = 1;
 				}
@@ -94,11 +97,14 @@
 		</script>
 		<script>
 			window.onload = async function() {
+				const data = `扫描到 ${len} 个藏品`;
+				const targetElement = document.getElementById('targetElement');
+				targetElement.innerText = data;
+				console.log(arr)
 				try {
-					const response = await axios.get('https://sg.jdzcnc.com:3020/api/exhibits/getExhibition_audio', {
-						params: {
-							poiId: poiId,
-							sign: 'J10D4Z26H8E5N14C3Z26C3Y25L12Z26N14T20L12I9A1N14G7K11EJKGYULIANZNNN',
+					const response = await axios.post('https://sg.jdzcnc.com:3020/api/exhibits/findVoiceList', {
+						products: {
+							poiId: arr,
 						}
 					});
 					const items = response.data.data;
@@ -115,10 +121,11 @@
 							const itemDetails = document.createElement('div');
 							itemDetails.classList.add('item-details');
 							const productName = document.createElement('p');
-							productName.textContent = item.exhibit_name;
+							productName.textContent = item.product_name;
 							itemDetails.appendChild(productName);
 							const button = document.createElement('button');
 							button.textContent = '播放讲解';
+							// button.dataset.voiceUrl = item.voice_url;
 							button.dataset.voideUrl = item.voide_url;
 							button.addEventListener('click', async () => {
 								const videoPlayer = document.createElement('div');
