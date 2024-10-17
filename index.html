@@ -130,10 +130,12 @@
 								const videoPlayer = document.createElement('div');
 								videoPlayer.classList.add('video-player');
 								let screenWidth = window.innerWidth;
-								console.log(screenWidth);
 								videoPlayer.style.width = screenWidth + 'px';
 								videoPlayer.style.height = screenWidth * 9 / 16 + 'px';
 								const video = document.createElement('video');
+								videoPlayer.classList.add('video');
+								video.style.width = screenWidth + 'px';
+								video.style.height = screenWidth * 9 / 16 + 'px';
 								try {
 									video.src = item.voide_url;
 									video.autoplay = true;
